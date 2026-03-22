@@ -1,44 +1,19 @@
-"use client";
+import { Toaster } from "sonner";
 
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import {
-  ConvexProvider,
-  ConvexReactClient,
-  getQueryClientSingleton,
-  getConvexQueryClientSingleton,
-} from "better-convex/react";
-import { CRPCProvider } from "@/lib/convex/crpc";
+import { caller, crpc, HydrateClient, prefetch } from "@/lib/convex/rsc";
+import { BetterConvexProvider } from "@/lib/convex/convex-provider";
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
-function createQueryClient() {
-  return new QueryClient({
-    defaultOptions: { queries: { staleTime: Infinity } },
-  });
-}
-export function Providers({ children }: { children: React.ReactNode }) {
+export async function Providers({ children }: { children: React.ReactNode }) {
+  const token = await caller.getToken();
+
+  prefetch(crpc.user.getCurrentUser.queryOptions(undefined, { skipUnauth: true }));
+
   return (
-    <ConvexProvider client={convex}>
-      <QueryProvider>{children}</QueryProvider>
-    </ConvexProvider>
-  );
-}
-function QueryProvider({ children }: { children: React.ReactNode }) {
-  const queryClient = getQueryClientSingleton(createQueryClient);
-  const convexQueryClient = getConvexQueryClientSingleton({
-    convex,
-    queryClient,
-  });
-  return (
-    <QueryClientProvider client={queryClient}>
-      <CRPCProvider
-        convexClient={convex}
-        convexQueryClient={convexQueryClient}
-      >
+    <BetterConvexProvider token={token}>
+      <HydrateClient>
         {children}
-      </CRPCProvider>
-    </QueryClientProvider>
+        <Toaster />
+      </HydrateClient>
+    </BetterConvexProvider>
   );
 }

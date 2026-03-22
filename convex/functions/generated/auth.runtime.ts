@@ -19,7 +19,15 @@ function createProcedureRegistry() {
     (require("../_generated/api.js") as typeof import('../_generated/api.js'));
 
   const procedureRegistry = {
-  "getCurrentUser": ["query", typedProcedureResolver(api["user"]["getCurrentUser"], () => (require("../user") as Record<string, unknown>)["getCurrentUser"])],
+  "create": ["mutation", typedProcedureResolver(internal["generated"]["auth"]["create"], () => (require("./auth") as Record<string, unknown>)["create"])],
+  "deleteMany": ["mutation", typedProcedureResolver(internal["generated"]["auth"]["deleteMany"], () => (require("./auth") as Record<string, unknown>)["deleteMany"])],
+  "deleteOne": ["mutation", typedProcedureResolver(internal["generated"]["auth"]["deleteOne"], () => (require("./auth") as Record<string, unknown>)["deleteOne"])],
+  "findMany": ["query", typedProcedureResolver(internal["generated"]["auth"]["findMany"], () => (require("./auth") as Record<string, unknown>)["findMany"])],
+  "findOne": ["query", typedProcedureResolver(internal["generated"]["auth"]["findOne"], () => (require("./auth") as Record<string, unknown>)["findOne"])],
+  "getLatestJwks": ["action", typedProcedureResolver(internal["generated"]["auth"]["getLatestJwks"], () => (require("./auth") as Record<string, unknown>)["getLatestJwks"])],
+  "rotateKeys": ["action", typedProcedureResolver(internal["generated"]["auth"]["rotateKeys"], () => (require("./auth") as Record<string, unknown>)["rotateKeys"])],
+  "updateMany": ["mutation", typedProcedureResolver(internal["generated"]["auth"]["updateMany"], () => (require("./auth") as Record<string, unknown>)["updateMany"])],
+  "updateOne": ["mutation", typedProcedureResolver(internal["generated"]["auth"]["updateOne"], () => (require("./auth") as Record<string, unknown>)["updateOne"])],
 } as const;
 
   const handlerRegistry = procedureRegistry;
@@ -67,7 +75,7 @@ type GeneratedProcedureHandler<
 >;
 
 
-export function createUserCaller<TCtx extends ProcedureCallerContext>(
+export function createGeneratedAuthCaller<TCtx extends ProcedureCallerContext>(
   ctx: TCtx
 ): GeneratedProcedureCaller<TCtx> {
   return generatedRuntime.getCallerFactory()(
@@ -75,7 +83,7 @@ export function createUserCaller<TCtx extends ProcedureCallerContext>(
   ) as GeneratedProcedureCaller<TCtx>;
 }
 
-export function createUserHandler<TCtx extends ProcedureHandlerContext>(
+export function createGeneratedAuthHandler<TCtx extends ProcedureHandlerContext>(
   ctx: TCtx
 ): GeneratedProcedureHandler<TCtx> {
   return generatedRuntime.getHandlerFactory()(ctx) as GeneratedProcedureHandler<TCtx>;
