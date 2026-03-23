@@ -9,7 +9,6 @@ import { useCRPC } from "@/lib/convex/crpc";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Client } from "@/app/client";
 
 const slugify = (value: string) =>
   value
@@ -46,7 +45,7 @@ export const OrganizationView = () => {
       <div className="bg-foreground h-full w-full overflow-x-scroll">
         <div className="top-4.5 start-4.5 absolute flex items-center z-2 justify-between w-[calc(100%-18px)]">
           <div className="flex items-center gap-1">
-            <Client />
+            
           </div>
         </div>
         <main className="flex flex-row h-full min-h-[800px] items-center justify-center pb-8">

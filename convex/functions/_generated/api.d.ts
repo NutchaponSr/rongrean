@@ -41,6 +41,7 @@ export declare const api: {
       { userId: string },
       any
     >;
+    getOne: FunctionReference<"query", "public", {}, any>;
     invite: FunctionReference<
       "mutation",
       "public",
@@ -53,6 +54,7 @@ export declare const api: {
       { joinCode: string; link: string },
       any
     >;
+    list: FunctionReference<"query", "public", {}, any>;
     reject: FunctionReference<
       "mutation",
       "public",

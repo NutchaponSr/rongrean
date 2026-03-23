@@ -1,18 +1,36 @@
 "use client";
 
-import { Authenticated, Unauthenticated } from "better-convex/react"
+import { AuthLoading } from "convex/react";
+import { usePathname } from "next/navigation";
+import { Authenticated } from "better-convex/react";
 
-import { AuthScreen } from "@/modules/auth/ui/screens/auth-screen";
+import { Loader } from "@/components/loader";
 
-export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const MATCH_PREFIX = ["/invite", "/link"];
+
+const matchPrefix = (pathname: string) => {
+  return MATCH_PREFIX.some((prefix) => pathname.startsWith(prefix));
+}
+
+export const AuthGuard = ({ children }: Props) => {
+  const pathname = usePathname();
+
+  if (matchPrefix(pathname)) {
+    return children;
+  }
+
   return (
     <>
+      <AuthLoading>
+        <Loader />
+      </AuthLoading>
       <Authenticated>
         {children}
       </Authenticated>
-      <Unauthenticated>
-        <AuthScreen />
-      </Unauthenticated>
     </>
-  )
+  );
 }

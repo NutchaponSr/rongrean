@@ -8,6 +8,7 @@ import { AuthCtx, authMutation, authQuery, publicQuery } from "../lib/crpc";
 import { Id } from "./_generated/dataModel";
 import type { MutationCtx } from "./generated/server";
 import { CRPCError } from "better-convex/server";
+import { createOrganizationHandler } from "./generated/organization.runtime";
 
 const MEMBER_LIMIT = 5;
 const DEFAULT_LIST_LIMIT = 100;
@@ -31,6 +32,25 @@ async function setActiveOrganizationHandler(
     headers: ctx.auth.headers,
   });
 }
+
+export const getOne = authQuery
+  .query(async ({ ctx }) => {
+    const org = await ctx.orm.query.organization.findFirst({
+      where: {
+        id: ctx.user.activeOrganization?.id as Id<"organization">,
+      },
+      with: {
+        members: {
+          limit: DEFAULT_LIST_LIMIT,
+        },
+      },
+    });
+
+    return {
+      ...org,
+      isMember: org?.members.some((member) => member.userId === ctx.userId),
+    };
+  });
 
 export const getInitialSession = publicQuery
   .input(
@@ -68,6 +88,44 @@ export const getActiveOrganization = authQuery
       hasOrganization: !!activeOrganization,
     };
   });
+
+export const list = authQuery
+  .query(async ({ ctx }) => {
+    const members = await ctx.orm.query.member.findMany({
+      where: {
+        userId: ctx.userId as Id<"user">,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      with: {
+        organization: true,
+      },
+      limit: DEFAULT_LIST_LIMIT,
+    });
+
+    if (!members.length) return { organizations: [], activeOrganization: undefined };
+
+    const organizations = members.map((member) => {
+      const org = member.organization;
+
+      if (!org) {
+        throw new CRPCError({
+          code: "NOT_FOUND",
+          message: "Organization not found",
+        });
+      }
+
+      return { ...org, role: member.role || "member" };
+    });
+
+    const activeOrganization = organizations.find((org) => org.id === ctx.user.activeOrganization?.id);
+
+    return {
+      organizations,
+      activeOrganization,
+    };
+  })
 
 export const create = authMutation
   .meta({ ratelimit: "organization/create" })

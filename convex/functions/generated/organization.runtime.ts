@@ -24,8 +24,10 @@ function createProcedureRegistry() {
   "generateLink": ["mutation", typedProcedureResolver(api["organization"]["generateLink"], () => (require("../organization") as Record<string, unknown>)["generateLink"])],
   "getActiveOrganization": ["query", typedProcedureResolver(api["organization"]["getActiveOrganization"], () => (require("../organization") as Record<string, unknown>)["getActiveOrganization"])],
   "getInitialSession": ["query", typedProcedureResolver(api["organization"]["getInitialSession"], () => (require("../organization") as Record<string, unknown>)["getInitialSession"])],
+  "getOne": ["query", typedProcedureResolver(api["organization"]["getOne"], () => (require("../organization") as Record<string, unknown>)["getOne"])],
   "invite": ["mutation", typedProcedureResolver(api["organization"]["invite"], () => (require("../organization") as Record<string, unknown>)["invite"])],
   "join": ["mutation", typedProcedureResolver(api["organization"]["join"], () => (require("../organization") as Record<string, unknown>)["join"])],
+  "list": ["query", typedProcedureResolver(api["organization"]["list"], () => (require("../organization") as Record<string, unknown>)["list"])],
   "reject": ["mutation", typedProcedureResolver(api["organization"]["reject"], () => (require("../organization") as Record<string, unknown>)["reject"])],
 } as const;
 

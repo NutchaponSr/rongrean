@@ -58,7 +58,10 @@ export const InviteDialog = () => {
 
   const handleCopyLink = () => {
     if (!activeOrganization?.link) return;
-    navigator.clipboard.writeText(activeOrganization.link as string);
+
+    const url = `${process.env.NEXT_PUBLIC_SITE_URL}/invite/${activeOrganization.link}`;
+
+    navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard");
   }
 
