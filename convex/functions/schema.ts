@@ -123,7 +123,20 @@ export const invitation = convexTable("invitation", {
 ]);
 
 export const tables = { user, session, account, verification, jwks, organization, member, invitation };
-export const relations = defineRelations(tables)
+export const relations = defineRelations(tables, (r) => ({
+  organization: {
+    members: r.many.member({
+      from: r.organization.id,
+      to: r.member.organizationId,
+    }),
+  },
+  member: {
+    organization: r.one.organization({
+      from: r.member.organizationId,
+      to: r.organization.id,
+    }),
+  },
+}))
 export default defineSchema(tables, { 
   strict: false,
   plugins: [

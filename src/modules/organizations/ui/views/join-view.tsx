@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
-import { useCRPC } from "@/lib/crpc";
+import { useCRPC } from "@/lib/convex/crpc";
 
 import { Button } from "@/components/ui/button";
 
