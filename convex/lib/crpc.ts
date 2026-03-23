@@ -121,4 +121,7 @@ export const authMutation = c.mutation
       },
     });
   })
-  .use(ratelimitMiddleware);
+  // .use(ratelimitMiddleware);
+
+
+export const privateAction = c.action.use(devMiddleware).internal();

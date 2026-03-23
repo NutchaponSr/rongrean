@@ -11,6 +11,7 @@ import {
   timestamp,
   uniqueIndex,
 } from "better-convex/orm";
+import { ratelimitPlugin } from "better-convex/plugins/ratelimit";
 
 export const user = convexTable("user", {
   name: text().notNull(),
@@ -66,7 +67,7 @@ export const verification = convexTable("verification", {
   createdAt: timestamp().notNull().defaultNow(),
   updatedAt: timestamp().$onUpdate(() => new Date()),
 }, (t) => [
-  index("by_identifier").on(t.identifier),
+  uniqueIndex("by_identifier").on(t.identifier),
   index("by_expiresAt").on(t.expiresAt),
 ]);
 
@@ -123,4 +124,9 @@ export const invitation = convexTable("invitation", {
 
 export const tables = { user, session, account, verification, jwks, organization, member, invitation };
 export const relations = defineRelations(tables)
-export default defineSchema(tables, { strict: false });
+export default defineSchema(tables, { 
+  strict: false,
+  plugins: [
+    ratelimitPlugin(),
+  ],
+});

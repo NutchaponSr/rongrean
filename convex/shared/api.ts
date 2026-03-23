@@ -10,6 +10,16 @@ import type { InferInsertModel, InferSelectModel } from "better-convex/orm";
 import type { tables } from "../functions/schema";
 
 export const api = {
+  organization: {
+    accept: createApiLeaf<"mutation", typeof import("../functions/organization").accept>(convexApi["organization"]["accept"], { auth: "required", type: "mutation" }),
+    create: createApiLeaf<"mutation", typeof import("../functions/organization").create>(convexApi["organization"]["create"], { auth: "required", ratelimit: "organization/create", type: "mutation" }),
+    generateLink: createApiLeaf<"mutation", typeof import("../functions/organization").generateLink>(convexApi["organization"]["generateLink"], { auth: "required", type: "mutation" }),
+    getActiveOrganization: createApiLeaf<"query", typeof import("../functions/organization").getActiveOrganization>(convexApi["organization"]["getActiveOrganization"], { auth: "required", type: "query" }),
+    getInitialSession: createApiLeaf<"query", typeof import("../functions/organization").getInitialSession>(convexApi["organization"]["getInitialSession"], { type: "query" }),
+    invite: createApiLeaf<"mutation", typeof import("../functions/organization").invite>(convexApi["organization"]["invite"], { auth: "required", type: "mutation" }),
+    join: createApiLeaf<"mutation", typeof import("../functions/organization").join>(convexApi["organization"]["join"], { auth: "required", type: "mutation" }),
+    reject: createApiLeaf<"mutation", typeof import("../functions/organization").reject>(convexApi["organization"]["reject"], { auth: "required", type: "mutation" }),
+  },
   user: {
     getCurrentUser: createApiLeaf<"query", typeof import("../functions/user").getCurrentUser>(convexApi["user"]["getCurrentUser"], { auth: "required", type: "query" }),
   },

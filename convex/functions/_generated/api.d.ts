@@ -20,6 +20,46 @@ import type { GenericId as Id } from "convex/values";
  * ```
  */
 export declare const api: {
+  organization: {
+    accept: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: string },
+      any
+    >;
+    create: FunctionReference<
+      "mutation",
+      "public",
+      { name: string; slug: string },
+      any
+    >;
+    generateLink: FunctionReference<"mutation", "public", {}, any>;
+    getActiveOrganization: FunctionReference<"query", "public", {}, any>;
+    getInitialSession: FunctionReference<
+      "query",
+      "public",
+      { userId: string },
+      any
+    >;
+    invite: FunctionReference<
+      "mutation",
+      "public",
+      { email: string; role: "member" | "owner" | "admin" },
+      any
+    >;
+    join: FunctionReference<
+      "mutation",
+      "public",
+      { joinCode: string; link: string },
+      any
+    >;
+    reject: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: string },
+      any
+    >;
+  };
   user: {
     getCurrentUser: FunctionReference<"query", "public", {}, any>;
   };
@@ -34,6 +74,14 @@ export declare const api: {
  * ```
  */
 export declare const internal: {
+  email: {
+    sendEmail: FunctionReference<
+      "action",
+      "internal",
+      { html?: string; subject: string; text?: string; to: string },
+      any
+    >;
+  };
   generated: {
     auth: {
       create: FunctionReference<

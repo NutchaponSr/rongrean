@@ -27,14 +27,6 @@ export function BetterConvexProvider({
   token?: string;
 }) {
   const router = useRouter();
-  const authStore = useAuthStore();
-
-  const queryClient = getQueryClientSingleton(createQueryClient);
-  const convexQueryClient = getConvexQueryClientSingleton({
-    authStore,
-    convex,
-    queryClient,
-  });
 
   return (
     <ConvexAuthProvider
@@ -50,11 +42,28 @@ export function BetterConvexProvider({
         }
       }}
     >
-      <TanstackQueryClientProvider client={queryClient}>
-        <CRPCProvider convexClient={convex} convexQueryClient={convexQueryClient}>
-          {children}
-        </CRPCProvider>
-      </TanstackQueryClientProvider>
+      <QueryClientProvider>
+        {children}
+      </QueryClientProvider>
     </ConvexAuthProvider>
+  );
+}
+
+function QueryClientProvider({ children }: { children: React.ReactNode }) {
+  const authStore = useAuthStore();
+
+  const queryClient = getQueryClientSingleton(createQueryClient);
+  const convexQueryClient = getConvexQueryClientSingleton({
+    authStore,
+    convex,
+    queryClient,
+  });
+
+  return (
+    <TanstackQueryClientProvider client={queryClient}>
+      <CRPCProvider convexClient={convex} convexQueryClient={convexQueryClient}>
+        {children}
+      </CRPCProvider>
+    </TanstackQueryClientProvider>
   );
 }
