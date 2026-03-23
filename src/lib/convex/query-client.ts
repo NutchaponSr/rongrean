@@ -1,4 +1,4 @@
-import superjson from "superjson";
+import SuperJSON from "superjson";
 
 import {
   type DefaultOptions,
@@ -11,12 +11,12 @@ import { isCRPCClientError, isCRPCError } from "better-convex/crpc";
 
 export const hydrationConfig: Pick<DefaultOptions, "dehydrate" | "hydrate"> = {
   dehydrate: {
-    serializeData: superjson.serialize,
+    serializeData: SuperJSON.serialize,
     shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === "pending",
     shouldRedactErrors: () => false,
   },
   hydrate: {
-    deserializeData: superjson.deserialize,
+    deserializeData: SuperJSON.deserialize,
   },
 }
 
@@ -49,7 +49,7 @@ export function createQueryClient() {
 
           const message = error instanceof Error ? error.message : String(error);
 
-          if (message.includes("time out") && failureCount < 3) {
+          if (message.includes("timed out") && failureCount < 3) {
             console.warn(`[QueryClient] Retrying timed out query (attempt ${failureCount + 1}/3)`);
             return true;
           }

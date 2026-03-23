@@ -1,9 +1,13 @@
 import authConfig from "./auth.config";
 
 import { convex } from "better-convex/auth";
+import { organization } from "better-auth/plugins";
+import { requireRunMutationCtx } from "better-convex/server";
 
 import { defineAuth } from "./generated/auth";
-import { organization } from "better-auth/plugins";
+import { api, internal } from "./_generated/api";
+import { ActionCtx } from "./generated/server";
+import { buildEmailTemplate } from "./emailTemplates";
 
 export default defineAuth((ctx) => {
   return {
@@ -32,6 +36,25 @@ export default defineAuth((ctx) => {
         trustedProviders: ["github", "google", "email-password"],
       },
     },
+    databaseHooks: {
+      session: {
+        create: {
+          before: async (session) => {
+            const runCtx = requireRunMutationCtx(ctx);
+            const org = await runCtx.runQuery(api.organization.getInitialSession, {
+              userId: session.userId,
+            });
+
+            return {
+              data: {
+                ...session,
+                activeOrganizationId: org?.id,
+              }
+            };
+          },
+        },
+      },
+    },
     plugins: [
       convex({
         authConfig,
@@ -39,6 +62,25 @@ export default defineAuth((ctx) => {
       organization({
         allowUserToCreateOrganization: true,
         creatorRole: "owner",
+        organizationHooks: {
+          afterCreateInvitation: async (data) => {
+            const url = new URL(process.env.SITE_URL!);
+            url.pathname = `/invite/${data.invitation.id}`;
+
+            await (ctx as ActionCtx).scheduler.runAfter(
+              0,
+              internal.email.sendEmail,
+              {
+                to: data.invitation.email,
+                ...buildEmailTemplate(
+                  url.toString(),
+                  "Join Our Organization",
+                  "Please click the button below to join our organization."
+                )
+              }
+            )
+          },
+        },
         schema: {
           organization: {
             additionalFields: {
