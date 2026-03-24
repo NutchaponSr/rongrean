@@ -22,6 +22,7 @@ import { Hint } from "@/components/hint";
 import { useSidebar } from "@/components/contexts/sidebar-context";
 
 import { UserButton } from "@/modules/auth/ui/components/user-button";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Sidebar = () => {
   const crpc = useCRPC();
@@ -33,7 +34,7 @@ export const Sidebar = () => {
     startDragging
   } = useSidebar();
 
-  // const { data: databases } = useSuspenseQuery(crpc.database.getMany.queryOptions());
+  const { data: databases } = useSuspenseQuery(crpc.database.getMany.queryOptions());
 
   const box = useRef<HTMLDivElement>(null);
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
@@ -98,16 +99,16 @@ export const Sidebar = () => {
                   <div className="flex flex-col min-h-full">
                     <div className="flex flex-col gap-3 px-2 pb-5">
                       <div className="flex flex-col gap-1 m-0">
-                        {/* <SidebarContent label="Resonance apps">
+                        <SidebarContent label="Resonance apps">
                           {databases.map((database) => (
                             <SidebarItem 
-                              key={database.id} 
+                              key={database._id} 
                               label={database.title ?? database.pageId} 
-                              href={`/${database.id}`} 
+                              href={`/${database._id}`} 
                               icon={GoDatabase}
                             />
                           ))}
-                        </SidebarContent> */}
+                        </SidebarContent>
                       </div>
                       <div className="flex flex-col gap-px">
                         {menus.slice(5).map((menu, index) => (

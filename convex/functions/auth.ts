@@ -174,7 +174,13 @@ export default defineAuth((ctx) => {
       organization({
         allowUserToCreateOrganization: true,
         creatorRole: "owner",
+        organizationLimit: 1,
         organizationHooks: {
+          afterCreateOrganization: async ({ organization }) => {
+            await requireRunMutationCtx(ctx).runMutation(api.database.initial, {
+              organizationId: organization.id,
+            });
+          },
           afterCreateInvitation: async (data) => {
             const url = new URL(process.env.SITE_URL!);
             url.pathname = `/invite/${data.invitation.id}`;
