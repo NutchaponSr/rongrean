@@ -20,11 +20,40 @@ import type { GenericId as Id } from "convex/values";
  * ```
  */
 export declare const api: {
+  database: {
+    getMany: FunctionReference<"query", "public", {}, any>;
+    getOne: FunctionReference<"query", "public", { databaseId: string }, any>;
+    initial: FunctionReference<
+      "mutation",
+      "public",
+      { organizationId: string },
+      { databaseId: string; pageId: string }
+    >;
+    update: FunctionReference<
+      "mutation",
+      "public",
+      {
+        coverImage?: string | null;
+        databaseId: string;
+        description?: string | null;
+        icon?: string | null;
+        position?: number | null;
+        title?: string | null;
+      },
+      any
+    >;
+  };
   organization: {
     accept: FunctionReference<
       "mutation",
       "public",
       { invitationId: string },
+      any
+    >;
+    addCustomIcon: FunctionReference<
+      "mutation",
+      "public",
+      { icon: string },
       any
     >;
     create: FunctionReference<
@@ -61,6 +90,9 @@ export declare const api: {
       { invitationId: string },
       any
     >;
+  };
+  upload: {
+    generateUploadUrl: FunctionReference<"mutation", "public", {}, any>;
   };
   user: {
     getCurrentUser: FunctionReference<"query", "public", {}, any>;

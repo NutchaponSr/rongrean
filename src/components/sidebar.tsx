@@ -22,6 +22,8 @@ import { Hint } from "@/components/hint";
 import { useSidebar } from "@/components/contexts/sidebar-context";
 
 import { UserButton } from "@/modules/auth/ui/components/user-button";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Icon } from "./icon";
 
 export const Sidebar = () => {
   const crpc = useCRPC();
@@ -33,7 +35,7 @@ export const Sidebar = () => {
     startDragging
   } = useSidebar();
 
-  // const { data: databases } = useSuspenseQuery(crpc.database.getMany.queryOptions());
+  const { data: databases } = useSuspenseQuery(crpc.database.getMany.queryOptions());
 
   const box = useRef<HTMLDivElement>(null);
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
@@ -98,16 +100,16 @@ export const Sidebar = () => {
                   <div className="flex flex-col min-h-full">
                     <div className="flex flex-col gap-3 px-2 pb-5">
                       <div className="flex flex-col gap-1 m-0">
-                        {/* <SidebarContent label="Resonance apps">
+                        <SidebarContent label="Resonance apps">
                           {databases.map((database) => (
                             <SidebarItem 
-                              key={database.id} 
+                              key={database._id} 
                               label={database.title ?? database.pageId} 
-                              href={`/${database.id}`} 
-                              icon={GoDatabase}
+                              href={`/${database._id}`} 
+                              icon={database.icon!}
                             />
                           ))}
-                        </SidebarContent> */}
+                        </SidebarContent>
                       </div>
                       <div className="flex flex-col gap-px">
                         {menus.slice(5).map((menu, index) => (
@@ -165,7 +167,7 @@ export const Sidebar = () => {
 
 const SidebarMenu = ({
   label,
-  icon: Icon,
+  icon: MenuIcon,
   tooltip,
   onClick
 }: {
@@ -187,7 +189,7 @@ const SidebarMenu = ({
         >
           <div className="flex items-center w-full text-sm min-h-7 h-7.5 py-1 px-2">
             <div className="shrink-0 grow-0 rounded text-secondary size-5.5 flex items-center justify-center me-2">
-              <Icon className="size-4.5 block text-icon-secondary shrink-0 stroke-[0.25]" />
+              <MenuIcon className="size-4.5 block text-icon-secondary shrink-0 stroke-[0.25]" />
             </div>
             <div className="grow shrink basis-auto whitespace-nowrap min-w-0 overflow-hidden text-ellipsis">
               {label}
@@ -237,11 +239,11 @@ const SidebarContent = ({
 const SidebarItem = ({
   label,
   href,
-  icon: Icon,
+  icon,
 }: {
   label: string;
   href: string;
-  icon: IconType;
+  icon: string;
 }) => {
   return (
     <div className="flex flex-col gap-px pb-0">
@@ -265,7 +267,11 @@ const SidebarItem = ({
               </div>
               <div className="col-start-1 row-start-1 opacity-100 order-1 transition-opacity group-hover/sidebar-item:opacity-0 group-hover/sidebar-item:order-0">
                 <div className="flex items-center justify-center size-5 rounded">
-                  <Icon className="size-4.5 block text-icon-secondary shrink-0 stroke-[0.25]" />
+                  {!icon ? (
+                    <GoDatabase className="size-4.5 block text-icon-secondary shrink-0 stroke-[0.25]" />
+                  ) : (
+                    <Icon name={icon} height={20} width={20} />
+                  )}
                 </div>
               </div>
             </div>

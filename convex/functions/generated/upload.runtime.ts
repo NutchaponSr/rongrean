@@ -19,17 +19,7 @@ function createProcedureRegistry() {
     (require("../_generated/api.js") as typeof import('../_generated/api.js'));
 
   const procedureRegistry = {
-  "accept": ["mutation", typedProcedureResolver(api["organization"]["accept"], () => (require("../organization") as Record<string, unknown>)["accept"])],
-  "addCustomIcon": ["mutation", typedProcedureResolver(api["organization"]["addCustomIcon"], () => (require("../organization") as Record<string, unknown>)["addCustomIcon"])],
-  "create": ["mutation", typedProcedureResolver(api["organization"]["create"], () => (require("../organization") as Record<string, unknown>)["create"])],
-  "generateLink": ["mutation", typedProcedureResolver(api["organization"]["generateLink"], () => (require("../organization") as Record<string, unknown>)["generateLink"])],
-  "getActiveOrganization": ["query", typedProcedureResolver(api["organization"]["getActiveOrganization"], () => (require("../organization") as Record<string, unknown>)["getActiveOrganization"])],
-  "getInitialSession": ["query", typedProcedureResolver(api["organization"]["getInitialSession"], () => (require("../organization") as Record<string, unknown>)["getInitialSession"])],
-  "getOne": ["query", typedProcedureResolver(api["organization"]["getOne"], () => (require("../organization") as Record<string, unknown>)["getOne"])],
-  "invite": ["mutation", typedProcedureResolver(api["organization"]["invite"], () => (require("../organization") as Record<string, unknown>)["invite"])],
-  "join": ["mutation", typedProcedureResolver(api["organization"]["join"], () => (require("../organization") as Record<string, unknown>)["join"])],
-  "list": ["query", typedProcedureResolver(api["organization"]["list"], () => (require("../organization") as Record<string, unknown>)["list"])],
-  "reject": ["mutation", typedProcedureResolver(api["organization"]["reject"], () => (require("../organization") as Record<string, unknown>)["reject"])],
+  "generateUploadUrl": ["mutation", typedProcedureResolver(api["upload"]["generateUploadUrl"], () => (require("../upload") as Record<string, unknown>)["generateUploadUrl"])],
 } as const;
 
   const handlerRegistry = procedureRegistry;
@@ -77,7 +67,7 @@ type GeneratedProcedureHandler<
 >;
 
 
-export function createOrganizationCaller<TCtx extends ProcedureCallerContext>(
+export function createUploadCaller<TCtx extends ProcedureCallerContext>(
   ctx: TCtx
 ): GeneratedProcedureCaller<TCtx> {
   return generatedRuntime.getCallerFactory()(
@@ -85,7 +75,7 @@ export function createOrganizationCaller<TCtx extends ProcedureCallerContext>(
   ) as GeneratedProcedureCaller<TCtx>;
 }
 
-export function createOrganizationHandler<TCtx extends ProcedureHandlerContext>(
+export function createUploadHandler<TCtx extends ProcedureHandlerContext>(
   ctx: TCtx
 ): GeneratedProcedureHandler<TCtx> {
   return generatedRuntime.getHandlerFactory()(ctx) as GeneratedProcedureHandler<TCtx>;
