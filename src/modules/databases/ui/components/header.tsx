@@ -8,6 +8,7 @@ import { useCRPC } from "@/lib/convex/crpc";
 
 import { Button } from "@/components/ui/button";
 
+import { Icon } from "@/components/icon";
 import { useSidebar } from "@/components/contexts/sidebar-context";
 
 import { LogButton } from "@/modules/organizations/ui/components/log-button";
@@ -41,6 +42,11 @@ export const Header = ({ databaseId }: Props) => {
             )}
             <div className="flex items-center leading-[1.2] text-sm h-full grow-0 me-2 min-w-0">
               <Button variant="ghost" size="xs" className="text-primary">
+                {database?.icon && (
+                  <div className="flex items-center justify-center size-5 shrink-0">
+                    <Icon name={database?.icon!} height={20} width={20} />
+                  </div>
+                )}
                 {database?.title}
               </Button>
             </div>

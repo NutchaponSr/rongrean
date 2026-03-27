@@ -13,22 +13,27 @@ interface Props {
     content: React.ReactNode;
   }>;
   customMenu?: React.ReactNode;
+  children?: React.ReactNode; 
 }
 
-export const TabsMenu = ({ triggers, customMenu }: Props) => {
+export const TabsMenu = ({ triggers, customMenu, children }: Props) => {
   return (
     <Tabs>
-      <TabsList variant="line">
-        <div className="flex items-center justify-start">
-          {triggers.map((t) => (
-            <TabsTrigger key={t.value} value={t.value}>
-              {t.label}
-            </TabsTrigger>
-          ))}
-        </div>
+      <div className="shrink-0">
+        <TabsList variant="line">
+          <div className="flex items-center justify-start">
+            {triggers.map((t) => (
+              <TabsTrigger key={t.value} value={t.value}>
+                {t.label}
+              </TabsTrigger>
+            ))}
+          </div>
 
-        {customMenu}
-      </TabsList>
+          {customMenu}
+        </TabsList>
+
+        {children}
+      </div>
       {triggers.map((t) => (
         <TabsContent key={t.value} value={t.value}>
           {t.content}

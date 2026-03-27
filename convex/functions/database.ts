@@ -101,4 +101,4 @@ export const update = authMutation
     if (Object.keys(updates).length === 0) return;
 
     await ctx.db.patch(databaseId as Id<"database">, updates);
-  })
+  });

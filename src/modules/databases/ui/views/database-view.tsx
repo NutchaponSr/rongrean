@@ -14,12 +14,13 @@ export const DatabaseView = ({ databaseId }: Props) => {
   const crpc = useCRPC();
 
   const { data: database } = useQuery(crpc.database.getOne.queryOptions({ databaseId }));
+  const { data: organization } = useQuery(crpc.organization.getActiveOrganization.queryOptions());
 
-  if (!database) return null;
+  if (!database || !organization) return null;
   
   return (
     <div className="z-1 flex flex-col relative overflow-auto">
-      <Banner database={database} />
+      <Banner database={database} customIcons={organization.customIcons || []} />
     </div>
   );
 }

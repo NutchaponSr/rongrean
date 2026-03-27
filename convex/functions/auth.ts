@@ -213,6 +213,10 @@ export default defineAuth((ctx) => {
               plan: {
                 required: true,
                 type: "string",
+              },
+              customIcons: {
+                required: false,
+                type: "string[]",
               }
             },
           },

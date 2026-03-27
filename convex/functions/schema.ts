@@ -1,5 +1,6 @@
 import {
   aggregateIndex,
+  arrayOf,
   boolean,
   convexTable,
   custom,
@@ -142,6 +143,7 @@ export const organization = convexTable("organization", {
   code: text().notNull(),
   link: text().notNull(),
   plan: text().notNull().default("free"),
+  customIcons: custom(v.optional(v.array(v.string()))),
   metadata: text(),
   createdAt: timestamp().notNull().defaultNow(),
 }, (t) => [

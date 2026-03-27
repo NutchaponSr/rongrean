@@ -585,6 +585,7 @@ export type DataModel = {
     document: {
       code: string;
       createdAt?: number;
+      customIcons?: null | Array<string>;
       link: string;
       logo?: null | string;
       metadata?: null | string;
@@ -598,6 +599,7 @@ export type DataModel = {
       | "code"
       | "createdAt"
       | "_creationTime"
+      | "customIcons"
       | "_id"
       | "link"
       | "logo"

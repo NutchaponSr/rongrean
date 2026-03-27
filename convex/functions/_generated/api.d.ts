@@ -50,6 +50,12 @@ export declare const api: {
       { invitationId: string },
       any
     >;
+    addCustomIcon: FunctionReference<
+      "mutation",
+      "public",
+      { icon: string },
+      any
+    >;
     create: FunctionReference<
       "mutation",
       "public",
@@ -84,6 +90,9 @@ export declare const api: {
       { invitationId: string },
       any
     >;
+  };
+  upload: {
+    generateUploadUrl: FunctionReference<"mutation", "public", {}, any>;
   };
   user: {
     getCurrentUser: FunctionReference<"query", "public", {}, any>;

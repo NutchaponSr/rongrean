@@ -18,6 +18,7 @@ export const api = {
   },
   organization: {
     accept: createApiLeaf<"mutation", typeof import("../functions/organization").accept>(convexApi["organization"]["accept"], { auth: "required", type: "mutation" }),
+    addCustomIcon: createApiLeaf<"mutation", typeof import("../functions/organization").addCustomIcon>(convexApi["organization"]["addCustomIcon"], { auth: "required", type: "mutation" }),
     create: createApiLeaf<"mutation", typeof import("../functions/organization").create>(convexApi["organization"]["create"], { auth: "required", ratelimit: "organization/create", type: "mutation" }),
     generateLink: createApiLeaf<"mutation", typeof import("../functions/organization").generateLink>(convexApi["organization"]["generateLink"], { auth: "required", type: "mutation" }),
     getActiveOrganization: createApiLeaf<"query", typeof import("../functions/organization").getActiveOrganization>(convexApi["organization"]["getActiveOrganization"], { auth: "required", type: "query" }),
@@ -27,6 +28,9 @@ export const api = {
     join: createApiLeaf<"mutation", typeof import("../functions/organization").join>(convexApi["organization"]["join"], { auth: "required", type: "mutation" }),
     list: createApiLeaf<"query", typeof import("../functions/organization").list>(convexApi["organization"]["list"], { auth: "required", type: "query" }),
     reject: createApiLeaf<"mutation", typeof import("../functions/organization").reject>(convexApi["organization"]["reject"], { auth: "required", type: "mutation" }),
+  },
+  upload: {
+    generateUploadUrl: createApiLeaf<"mutation", typeof import("../functions/upload").generateUploadUrl>(convexApi["upload"]["generateUploadUrl"], { auth: "required", type: "mutation" }),
   },
   user: {
     getCurrentUser: createApiLeaf<"query", typeof import("../functions/user").getCurrentUser>(convexApi["user"]["getCurrentUser"], { auth: "required", type: "query" }),

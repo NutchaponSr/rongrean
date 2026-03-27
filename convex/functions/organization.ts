@@ -83,8 +83,15 @@ export const getActiveOrganization = authQuery
       headers: ctx.auth.headers,
     });
 
+    const customIconUrls = activeOrganization?.customIcons
+      ? (await Promise.all(
+          activeOrganization.customIcons.map((id) => ctx.storage.getUrl(id))
+        )).filter((url): url is string => url !== null)
+      : [];
+
     return {
       ...activeOrganization,
+      customIcons: customIconUrls,
       hasOrganization: !!activeOrganization,
     };
   });
@@ -380,4 +387,19 @@ export const reject = authMutation
     });
 
     await setActiveOrganizationHandler(ctx, { organizationId: organization.id });
-  })
+  });
+
+export const addCustomIcon = authMutation
+  .input(
+    z.object({
+      icon: z.string(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    return await ctx.orm
+      .update(organization)
+      .set({
+        customIcons: [...(ctx.user.activeOrganization?.customIcons || []), input.icon],
+      })
+      .where(eq(organization.id, ctx.user.activeOrganization?.id as Id<"organization">));
+  });
