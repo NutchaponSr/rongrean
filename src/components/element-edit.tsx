@@ -36,7 +36,7 @@ export const ElementEdit = ({
 
   return (
     <>
-      {!value && (
+      {(!value && !!placeholder) && (
         <div className={cn(className?.placeholder)}>
           {placeholder}
         </div>

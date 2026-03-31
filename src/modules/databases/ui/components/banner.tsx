@@ -38,19 +38,19 @@ export const Banner = ({ database, customIcons }: Props) => {
 
   const updateTitle = useCallback((value: string) => {
     updateDatabase.mutate({ databaseId: database._id, title: value });
-  }, [database._id]);
+  }, [database._id, updateDatabase]);
 
   const updateDescription = useCallback((value: string) => {
     updateDatabase.mutate({ databaseId: database._id, description: value });
-  }, [database._id]);
+  }, [database._id, updateDatabase]);
 
   const addCoverImage = useCallback((value: string | null) => {
     updateDatabase.mutate({ databaseId: database._id, coverImage: value, position: 0 });
-  }, [database._id]);
+  }, [database._id, updateDatabase]);
 
   const savePosition = useCallback((position: number) => {
     updateDatabase.mutate({ databaseId: database._id, position: position });
-  }, [database._id]);
+  }, [database._id, updateDatabase]);
 
   const addIcon = useCallback(() => {
     updateDatabase.mutate({ databaseId: database._id, icon: getRandomIcon() });
@@ -58,7 +58,7 @@ export const Banner = ({ database, customIcons }: Props) => {
     setTimeout(() => {
       setOpen(true);
     }, 200);
-  }, [database._id, addRecentIcon]);
+  }, [database._id, updateDatabase]);
 
   const hasIcon = useMemo(() => !!database.icon, [database.icon]);
   const hasCoverImage = useMemo(() => !!database.coverImage, [database.coverImage]);
@@ -108,7 +108,7 @@ export const Banner = ({ database, customIcons }: Props) => {
                 }}
                 customIcons={customIcons}
               >
-                <div className="flex items-center justify-center size-9 rounded-[4px] shrink-0 relative z-1 pointer-events-auto ms-2 hover:bg-accent transition cursor-pointer">
+                <div className="flex items-center justify-center size-9 rounded-[4px] shrink-0 relative z-1 pointer-events-auto ms-2 hover:bg-muted transition cursor-pointer">
                   <Icon name={database.icon!} height={36} width={36} />
                 </div>
               </IconPicker>
