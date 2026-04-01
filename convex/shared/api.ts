@@ -29,6 +29,15 @@ export const api = {
     list: createApiLeaf<"query", typeof import("../functions/organization").list>(convexApi["organization"]["list"], { auth: "required", type: "query" }),
     reject: createApiLeaf<"mutation", typeof import("../functions/organization").reject>(convexApi["organization"]["reject"], { auth: "required", type: "mutation" }),
   },
+  page: {
+    create: createApiLeaf<"mutation", typeof import("../functions/page").create>(convexApi["page"]["create"], { auth: "required", type: "mutation" }),
+  },
+  property: {
+    create: createApiLeaf<"mutation", typeof import("../functions/property").create>(convexApi["property"]["create"], { auth: "required", type: "mutation" }),
+  },
+  row: {
+    update: createApiLeaf<"mutation", typeof import("../functions/row").update>(convexApi["row"]["update"], { auth: "required", type: "mutation" }),
+  },
   upload: {
     generateUploadUrl: createApiLeaf<"mutation", typeof import("../functions/upload").generateUploadUrl>(convexApi["upload"]["generateUploadUrl"], { auth: "required", type: "mutation" }),
   },

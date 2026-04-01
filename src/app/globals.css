@@ -23,6 +23,7 @@
   --color-tertiary-foreground: var(--tertiary-foreground);
   --color-border: var(--border);
   --color-border-secondary: var(--border-secondary);
+  --color-border-tertiary: var(--border-tertiary);
   --color-destructive: var(--destructive);
   --color-icon-primary: var(--icon-primary);
   --color-icon-secondary: var(--icon-secondary);
@@ -30,6 +31,7 @@
   --color-popover: var(--popover);
   --color-accent: var(--accent);
   --color-placeholder: var(--placeholder);
+  --color-row: var(--row);
   --font-sans: var(--font-sans);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -55,10 +57,12 @@
   --tertiary: #a19e99;
   --border: #e6e5e3;
   --border-secondary: #f0efed;
+  --border-tertiary: #1b150030;
   --destructive: #eb5757;
   --popover: #ffffff;
   --accent: #3735300f;
   --placeholder: #37352f26;
+  --row: #37352f06;
 
   --blue-foreground: #007cd718;
   --blue-accent: #007cd724;

@@ -5,8 +5,7 @@ import { generateKeyBetween } from "fractional-indexing";
 
 import { authMutation, authQuery } from "../lib/crpc";
 
-import { Id } from "./_generated/dataModel";
-
+import { Id } from "./_generated/dataModel"
 export const initial = authMutation
   .input(
     z.object({
@@ -22,12 +21,10 @@ export const initial = authMutation
   .mutation(async ({ ctx, input }) => {
     const pageId = await ctx.db.insert("page", {
       organizationId: input.organizationId as Id<"organization">,
-      type: "database",
       title: "Student Information System (SIS)",
       createdBy: ctx.user.id as Id<"user">,
       isArchived: false,
       isTrashed: false,
-      block: { type: "database" },
       lastEditedBy: ctx.user.id as Id<"user">,
       sortOrder: generateKeyBetween(null, null),
     });
@@ -49,6 +46,7 @@ export const initial = authMutation
       sortOrder: generateKeyBetween(null, null),
       isHidden: false,
       isPrimary: true,
+      width: 240,
     });
 
     return { pageId, databaseId };
@@ -70,7 +68,35 @@ export const getOne = authQuery
       });
     }
 
-    return database;
+    const [properties, rawRows] = await Promise.all([
+      ctx.db
+        .query("property")
+        .withIndex("by_databaseId", (q) => q.eq("databaseId", database._id))
+        .collect(),
+      ctx.db
+        .query("row")
+        .withIndex("by_databaseId_isArchived", (q) => q.eq("databaseId", database._id).eq("isArchived", false))
+        .collect(),
+    ]);
+
+    const rows = (await Promise.all(
+      rawRows.map(async (row) => {
+        const page = await ctx.db.get(row.pageId);
+
+        if (!page || page.isTrashed) return null;
+
+        return {
+          ...row,
+          page,
+        }
+      })
+    )).filter((row) => row !== null)
+
+    return {
+      ...database,
+      properties,
+      rows,
+    };
   });
 
 export const getMany = authQuery
@@ -96,7 +122,7 @@ export const update = authMutation
   )
   .mutation(async ({ ctx, input }) => {
     const { databaseId, ...fields } = input;
-    const updates = Object.fromEntries(Object.entries(fields).filter(([_, value]) => value !== undefined));
+    const updates = Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== undefined));
 
     if (Object.keys(updates).length === 0) return;
 

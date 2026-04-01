@@ -301,74 +301,6 @@ export type DataModel = {
     searchIndexes: {};
     vectorIndexes: {};
   };
-  cellValue: {
-    document: {
-      databaseId: Id<"database">;
-      pageId: Id<"page">;
-      propertyId: Id<"property">;
-      updatedAt?: null | number;
-      value?:
-        | null
-        | { text: string; type: "title" }
-        | { text: string; type: "text" }
-        | { number: number; type: "number" }
-        | { checkbox: boolean; type: "checkbox" }
-        | { optionId: string; type: "select" }
-        | { optionIds: Array<string>; type: "multi_select" }
-        | { end?: number; start: number; type: "date" }
-        | { type: "person"; userIds: Array<Id<"user">> }
-        | {
-            files: Array<{ mimeType?: string; name: string; url: string }>;
-            type: "files";
-          }
-        | { type: "url"; url: string }
-        | { email: string; type: "email" }
-        | { phone: string; type: "phone" }
-        | { result: string; type: "formula" }
-        | { pageIds: Array<Id<"page">>; type: "relation" }
-        | { result: string; type: "rollup" }
-        | { optionId: string; type: "status" }
-        | { type: "created_time" }
-        | { type: "created_by" }
-        | { type: "last_edited_time" }
-        | { type: "last_edited_by" };
-      _id: Id<"cellValue">;
-      _creationTime: number;
-    };
-    fieldPaths:
-      | "_creationTime"
-      | "databaseId"
-      | "_id"
-      | "pageId"
-      | "propertyId"
-      | "updatedAt"
-      | "value"
-      | "value.checkbox"
-      | "value.email"
-      | "value.end"
-      | "value.files"
-      | "value.number"
-      | "value.optionId"
-      | "value.optionIds"
-      | "value.pageIds"
-      | "value.phone"
-      | "value.result"
-      | "value.start"
-      | "value.text"
-      | "value.type"
-      | "value.url"
-      | "value.userIds";
-    indexes: {
-      by_id: ["_id"];
-      by_creation_time: ["_creationTime"];
-      databaseId: ["databaseId", "_creationTime"];
-      pageId: ["pageId", "_creationTime"];
-      pageId_propertyId: ["pageId", "propertyId", "_creationTime"];
-      propertyId: ["propertyId", "_creationTime"];
-    };
-    searchIndexes: {};
-    vectorIndexes: {};
-  };
   database: {
     document: {
       coverImage?: null | string;
@@ -618,396 +550,51 @@ export type DataModel = {
   };
   page: {
     document: {
-      block?:
-        | null
-        | { type: "page" }
-        | { type: "database" }
-        | { type: "divider" }
-        | { type: "column_list" }
-        | { type: "column" }
-        | {
-            cells: Array<
-              Array<{
-                bold?: boolean;
-                code?: boolean;
-                color?: string;
-                expression?: string;
-                href?: string;
-                italic?: boolean;
-                mentionTargetId?: string;
-                strikethrough?: boolean;
-                text?: string;
-                type: "text" | "mention_user" | "mention_page" | "equation";
-                underline?: boolean;
-              }>
-            >;
-            type: "table_row";
-          }
-        | { type: "template" }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            type: "paragraph";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            isToggleable?: boolean;
-            type: "heading_1";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            isToggleable?: boolean;
-            type: "heading_2";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            isToggleable?: boolean;
-            type: "heading_3";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            type: "bulleted_list_item";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            type: "numbered_list_item";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            type: "toggle";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            type: "quote";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            calloutIcon?: string;
-            type: "callout";
-          }
-        | {
-            body: Array<{
-              bold?: boolean;
-              code?: boolean;
-              color?: string;
-              expression?: string;
-              href?: string;
-              italic?: boolean;
-              mentionTargetId?: string;
-              strikethrough?: boolean;
-              text?: string;
-              type: "text" | "mention_user" | "mention_page" | "equation";
-              underline?: boolean;
-            }>;
-            checked: boolean;
-            type: "to_do";
-          }
-        | {
-            caption?: string;
-            code: string;
-            language:
-              | "abap"
-              | "arduino"
-              | "bash"
-              | "basic"
-              | "c"
-              | "clojure"
-              | "coffeescript"
-              | "cpp"
-              | "csharp"
-              | "css"
-              | "dart"
-              | "diff"
-              | "docker"
-              | "elixir"
-              | "elm"
-              | "erlang"
-              | "flow"
-              | "fortran"
-              | "fsharp"
-              | "gherkin"
-              | "glsl"
-              | "go"
-              | "graphql"
-              | "groovy"
-              | "haskell"
-              | "html"
-              | "java"
-              | "javascript"
-              | "json"
-              | "julia"
-              | "kotlin"
-              | "latex"
-              | "less"
-              | "lisp"
-              | "livescript"
-              | "lua"
-              | "makefile"
-              | "markdown"
-              | "markup"
-              | "matlab"
-              | "mermaid"
-              | "nix"
-              | "objective_c"
-              | "ocaml"
-              | "pascal"
-              | "perl"
-              | "php"
-              | "plain_text"
-              | "powershell"
-              | "prolog"
-              | "protobuf"
-              | "python"
-              | "r"
-              | "reason"
-              | "ruby"
-              | "rust"
-              | "sass"
-              | "scala"
-              | "scheme"
-              | "scss"
-              | "shell"
-              | "sql"
-              | "swift"
-              | "typescript"
-              | "vb_net"
-              | "verilog"
-              | "vhdl"
-              | "visual_basic"
-              | "webassembly"
-              | "xml"
-              | "yaml"
-              | "java_or_kotlin";
-            type: "code";
-          }
-        | { caption?: string; type: "image"; url: string; width?: number }
-        | { caption?: string; type: "video"; url: string }
-        | {
-            caption?: string;
-            mimeType?: string;
-            name: string;
-            size?: number;
-            type: "file";
-            url: string;
-          }
-        | {
-            bookmarkTitle?: string;
-            description?: string;
-            previewImage?: string;
-            type: "bookmark";
-            url: string;
-          }
-        | { caption?: string; type: "embed"; url: string }
-        | {
-            columnCount: number;
-            hasColumnHeader: boolean;
-            hasRowHeader: boolean;
-            type: "table";
-          }
-        | { syncedFromPageId?: Id<"page">; type: "synced_block" };
-      color?:
-        | null
-        | "default"
-        | "gray"
-        | "brown"
-        | "orange"
-        | "yellow"
-        | "green"
-        | "blue"
-        | "purple"
-        | "pink"
-        | "red"
-        | "gray_background"
-        | "brown_background"
-        | "orange_background"
-        | "yellow_background"
-        | "green_background"
-        | "blue_background"
-        | "purple_background"
-        | "pink_background"
-        | "red_background";
       coverImage?: null | string;
       createdAt?: number;
       createdBy: Id<"user">;
-      databaseId?: null | Id<"database">;
       icon?: null | string;
       isArchived: boolean;
       isTrashed: boolean;
       lastEditedBy: Id<"user">;
       organizationId: Id<"organization">;
       parentId?: null | Id<"page">;
+      rowProperties?: null | Array<{
+        propertyId: Id<"property">;
+        value:
+          | { type: "title"; value: string }
+          | { type: "text"; value: string }
+          | { type: "number"; value: number }
+          | { type: "checkbox"; value: boolean }
+          | { endValue?: number; type: "date"; value: number }
+          | { type: "select"; value: string }
+          | { type: "multi_select"; value: Array<string> }
+          | { type: "person"; value: Array<Id<"user">> }
+          | { type: "relation"; value: Array<Id<"page">> }
+          | { type: "url"; value: string }
+          | { type: "email"; value: string }
+          | { type: "phone"; value: string }
+          | { type: "files"; value: Array<{ name: string; url: string }> }
+          | { type: "formula"; value: string | number | boolean }
+          | { type: "rollup"; value: string | number }
+          | { type: "status"; value: string }
+          | { type: "created_time"; value: number }
+          | { type: "last_edited_time"; value: number }
+          | { type: "created_by"; value: string }
+          | { type: "last_edited_by"; value: string };
+      }>;
       sortOrder: string;
       title?: null | string;
       trashedAt?: null | number;
-      type:
-        | "page"
-        | "database"
-        | "paragraph"
-        | "heading_1"
-        | "heading_2"
-        | "heading_3"
-        | "heading_4"
-        | "heading_5"
-        | "heading_6"
-        | "bulleted_list_item"
-        | "numbered_list_item"
-        | "to_do"
-        | "toggle"
-        | "quote"
-        | "callout"
-        | "divider"
-        | "code"
-        | "image"
-        | "video"
-        | "file"
-        | "bookmark"
-        | "embed"
-        | "table"
-        | "table_row"
-        | "column_list"
-        | "column"
-        | "template"
-        | "synced_block";
       updatedAt?: null | number;
       _id: Id<"page">;
       _creationTime: number;
     };
     fieldPaths:
-      | "block"
-      | "block.body"
-      | "block.bookmarkTitle"
-      | "block.calloutIcon"
-      | "block.caption"
-      | "block.cells"
-      | "block.checked"
-      | "block.code"
-      | "block.columnCount"
-      | "block.description"
-      | "block.hasColumnHeader"
-      | "block.hasRowHeader"
-      | "block.isToggleable"
-      | "block.language"
-      | "block.mimeType"
-      | "block.name"
-      | "block.previewImage"
-      | "block.size"
-      | "block.syncedFromPageId"
-      | "block.type"
-      | "block.url"
-      | "block.width"
-      | "color"
       | "coverImage"
       | "createdAt"
       | "createdBy"
       | "_creationTime"
-      | "databaseId"
       | "icon"
       | "_id"
       | "isArchived"
@@ -1015,19 +602,17 @@ export type DataModel = {
       | "lastEditedBy"
       | "organizationId"
       | "parentId"
+      | "rowProperties"
       | "sortOrder"
       | "title"
       | "trashedAt"
-      | "type"
       | "updatedAt";
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
       createdBy: ["createdBy", "_creationTime"];
-      databaseId: ["databaseId", "_creationTime"];
       isTrashed: ["isTrashed", "_creationTime"];
       organizationId: ["organizationId", "_creationTime"];
-      organizationId_type: ["organizationId", "type", "_creationTime"];
       parentId: ["parentId", "_creationTime"];
       parentId_sortOrder: ["parentId", "sortOrder", "_creationTime"];
     };
@@ -1080,7 +665,7 @@ export type DataModel = {
           }
         | { expression: string; type: "formula" }
         | {
-            relationDatabaseId: Id<"database">;
+            relationDatabaseId?: Id<"database">;
             syncedPropertyId?: string;
             type: "relation";
           }
@@ -1110,10 +695,6 @@ export type DataModel = {
       type:
         | "title"
         | "text"
-        | "number"
-        | "select"
-        | "multi_select"
-        | "status"
         | "date"
         | "person"
         | "files"
@@ -1121,14 +702,19 @@ export type DataModel = {
         | "url"
         | "email"
         | "phone"
-        | "formula"
-        | "relation"
-        | "rollup"
         | "created_time"
         | "created_by"
         | "last_edited_time"
-        | "last_edited_by";
+        | "last_edited_by"
+        | "select"
+        | "multi_select"
+        | "status"
+        | "number"
+        | "formula"
+        | "relation"
+        | "rollup";
       updatedAt?: null | number;
+      width: number;
       _id: Id<"property">;
       _creationTime: number;
     };
@@ -1153,12 +739,13 @@ export type DataModel = {
       | "name"
       | "sortOrder"
       | "type"
-      | "updatedAt";
+      | "updatedAt"
+      | "width";
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
-      databaseId: ["databaseId", "_creationTime"];
-      databaseId_type: ["databaseId", "type", "_creationTime"];
+      by_databaseId: ["databaseId", "_creationTime"];
+      by_databaseId_sortOrder: ["databaseId", "sortOrder", "_creationTime"];
     };
     searchIndexes: {};
     vectorIndexes: {};
@@ -1236,6 +823,37 @@ export type DataModel = {
       by_creation_time: ["_creationTime"];
       by_name_key: ["name", "key", "_creationTime"];
       by_name_key_shard: ["name", "key", "shard", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  row: {
+    document: {
+      createdAt?: number;
+      createdBy: Id<"user">;
+      databaseId: Id<"database">;
+      isArchived: boolean;
+      order: string;
+      pageId: Id<"page">;
+      updatedAt?: null | number;
+      _id: Id<"row">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "createdBy"
+      | "_creationTime"
+      | "databaseId"
+      | "_id"
+      | "isArchived"
+      | "order"
+      | "pageId"
+      | "updatedAt";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      by_databaseId_isArchived: ["databaseId", "isArchived", "_creationTime"];
+      by_databaseId_order: ["databaseId", "order", "_creationTime"];
     };
     searchIndexes: {};
     vectorIndexes: {};

@@ -3,16 +3,17 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Button } from "@/components/ui/button";
 import { PopoverSeparator } from "@/components/ui/popover";
 
-export const LogButton = () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const LogButton = ({ children }: Props) => {
   return (
     <HoverCard openDelay={10} closeDelay={100}>
       <HoverCardTrigger asChild>
-        <Button variant="ghost" size="sm">
-          Edited Mar 7
-        </Button>
+        {children}
       </HoverCardTrigger>
       <HoverCardContent>
         <div className="text-sm text-secondary leading-5 font-normal min-w-[300px] px-3 py-1.5">Activity</div>

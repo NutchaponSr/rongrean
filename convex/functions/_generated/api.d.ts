@@ -91,6 +91,121 @@ export declare const api: {
       any
     >;
   };
+  page: {
+    create: FunctionReference<
+      "mutation",
+      "public",
+      { databaseId: string },
+      any
+    >;
+  };
+  property: {
+    create: FunctionReference<
+      "mutation",
+      "public",
+      {
+        config:
+          | { type: "title" }
+          | { type: "text" }
+          | { type: "date" }
+          | { type: "person" }
+          | { type: "files" }
+          | { type: "checkbox" }
+          | { type: "url" }
+          | { type: "email" }
+          | { type: "phone" }
+          | { type: "created_time" }
+          | { type: "created_by" }
+          | { type: "last_edited_time" }
+          | { type: "last_edited_by" }
+          | {
+              options: Array<{ color?: string; id: string; name: string }>;
+              type: "select";
+            }
+          | {
+              options: Array<{ color?: string; id: string; name: string }>;
+              type: "multi_select";
+            }
+          | {
+              groups: Array<{ color?: string; id: string; name: string }>;
+              options: Array<{ color?: string; id: string; name: string }>;
+              type: "status";
+            }
+          | {
+              numberFormat:
+                | "number"
+                | "dollar"
+                | "euro"
+                | "pound"
+                | "baht"
+                | "yen"
+                | "percent"
+                | "rupee"
+                | "won"
+                | "ruble";
+              type: "number";
+            }
+          | { expression: string; type: "formula" }
+          | {
+              relationDatabaseId?: string;
+              syncedPropertyId?: string;
+              type: "relation";
+            }
+          | {
+              relationPropertyId: string;
+              rollupFunction:
+                | "count"
+                | "count_values"
+                | "sum"
+                | "average"
+                | "min"
+                | "max"
+                | "median"
+                | "percent_empty"
+                | "percent_not_empty"
+                | "show_original"
+                | "show_unique";
+              rollupPropertyId: string;
+              type: "rollup";
+            };
+        databaseId: string;
+        name: string;
+      },
+      any
+    >;
+  };
+  row: {
+    update: FunctionReference<
+      "mutation",
+      "public",
+      {
+        pageId: string;
+        propertyId: string;
+        value:
+          | { type: "title"; value: string }
+          | { type: "text"; value: string }
+          | { type: "number"; value: number }
+          | { type: "checkbox"; value: boolean }
+          | { endValue?: number; type: "date"; value: number }
+          | { type: "select"; value: string }
+          | { type: "multi_select"; value: Array<string> }
+          | { type: "person"; value: Array<string> }
+          | { type: "relation"; value: Array<string> }
+          | { type: "url"; value: string }
+          | { type: "email"; value: string }
+          | { type: "phone"; value: string }
+          | { type: "files"; value: Array<{ name: string; url: string }> }
+          | { type: "formula"; value: string | number | boolean }
+          | { type: "rollup"; value: string | number }
+          | { type: "status"; value: string }
+          | { type: "created_time"; value: number }
+          | { type: "last_edited_time"; value: number }
+          | { type: "created_by"; value: string }
+          | { type: "last_edited_by"; value: string };
+      },
+      any
+    >;
+  };
   upload: {
     generateUploadUrl: FunctionReference<"mutation", "public", {}, any>;
   };
